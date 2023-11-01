@@ -1,0 +1,43 @@
+version: "3.7"
+
+# NOTE: Hardhat node not included here, becasue it's a seperate entity that lives it's own lifecycle.
+# e.g. We need to deploy the SellingController and the GameController prior to starting the api and other services.
+services:
+  api:
+    restart: always
+    image: registry.digitalocean.com/satoshi-quest/api
+    container_name: satoshi-quest-api-testcases
+    network_mode: host
+    environment:
+      - SERVER_HOST=${SERVER_HOST}
+      - SERVER_PORT=${SERVER_PORT}
+      - RUST_LOG=${RUST_LOG}
+      - SECRET_RECAPTCHA_V2_SECRET=${SECRET_RECAPTCHA_V2_SECRET}
+      - SECRET_NFT_STORAGE_KEY=${SECRET_NFT_STORAGE_KEY}
+      - SECRET_DO_SPACES_KEY=${SECRET_DO_SPACES_KEY}
+      - SECRET_DO_SPACES_SECRET=${SECRET_DO_SPACES_SECRET}
+      - SECRET_MAINTAINER_PRIVATE_KEY=${SECRET_MAINTAINER_PRIVATE_KEY}
+      - CONFIG_IGNORE_RECAPTCHA=${CONFIG_IGNORE_RECAPTCHA}
+      - CONFIG_NODE_URL=${CONFIG_NODE_URL}
+      - CONFIG_SELLING_CONTROLLER_ADDRESS=${CONFIG_SELLING_CONTROLLER_ADDRESS}
+      - CONFIG_GAME_CONTROLLER_ADDRESS=${CONFIG_GAME_CONTROLLER_ADDRESS}
+      - CONFIG_BLOCK_DELTA=${CONFIG_BLOCK_DELTA}
+      - CONFIG_HIDE_ENDING=${CONFIG_HIDE_ENDING}
+      - CONFIG_DO_SPACES_REGION=${CONFIG_DO_SPACES_REGION}
+      - CONFIG_DO_SPACES_NAME=${CONFIG_DO_SPACES_NAME}
+      - CONFIG_DO_SPACES_SUBFOLDER=${CONFIG_DO_SPACES_SUBFOLDER}
+      - DB_PORT=${DB_PORT}
+      - DB_NAME=${DB_NAME}
+      - DB_HOST=${DB_HOST}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+    depends_on:
+      - db
+  db:
+    image: postgres:13.3
+    container_name: satoshi-quest-db-testcases
+    network_mode: host
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}

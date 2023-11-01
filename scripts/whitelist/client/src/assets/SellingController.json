@@ -1,0 +1,22 @@
+[
+    {
+      "inputs": [
+        {
+          "internalType": "address[]",
+          "name": "newWhitelistbatch",
+          "type": "address[]"
+        }
+      ],
+      "name": "addBatchToWhitelist",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "disableWhitelist",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+]
